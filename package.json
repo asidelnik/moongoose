@@ -1,0 +1,15 @@
+{
+  "name": "5.mongoose-subdocs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mongoose-subdocs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.0.8",
+    "mongoose": "^5.0.17"
+  }
+}
