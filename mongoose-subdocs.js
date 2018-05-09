@@ -22,7 +22,7 @@ var PlanetSchema = new mongoose.Schema({
    name: String,
    system: {
       type: Schema.Types.ObjectId,
-      ref: 'system'
+      ref: 'solarsystem'
    },
    visitors: [{
       type: Schema.Types.ObjectId,
@@ -36,78 +36,103 @@ var visitorSchema = new mongoose.Schema({
    name: String,
    homePlanet: {
       type: Schema.Types.ObjectId,
-      ref: 'homePlanet'
+      ref: 'Planet'
    },
    visitedPlanets: [{
       type: Schema.Types.ObjectId,
-      ref: 'visitedPlanets'
+      ref: 'Planet'
    }]
 })
 var Visitor = mongoose.model("visitor", visitorSchema);
 
 
 
-// Instances
+
+
+
+
+
+// Instances -----------------------------------
+// Solar Systems
 var milkyWay = new Solarsystem({
-   Planets: [earth, asgard],
+   Planets: [],
    starName: "Milky Way"
 });
 var outerMilkyWay = new Solarsystem({
-   Planets: [titan],
+   Planets: [],
    starName: "Outer Milky Way"
 });
 
-
+// Planets
 var earth = new Planet({
    name: "Earth",
    system: milkyWay,
-   visitors: ironMan
+   visitors: []
 });
 var titan = new Planet({
    name: "Titan",
    system: outerMilkyWay,
-   visitors: ironMan
+   visitors: []
 });
 var asgard = new Planet({
    name: "Asgard",
    system: milkyWay,
-   visitors: ironMan
+   visitors: []
 });
 
-
-
+// Visitors
+var halkEye = new Visitor({
+   name: "Halk Eye",
+   homePlanet: earth,
+   visitedPlanets: []
+});
 var ironMan = new Visitor({
    name: "Iron Man",
    homePlanet: earth,
    visitedPlanets: [titan, asgard]
-});
-var thanos = new Visitor({
-   name: "Thanos",
-   homePlanet: titan,
-   visitedPlanets: []
 });
 var thor = new Visitor({
    name: "Thor",
    homePlanet: asgard,
    visitedPlanets: [earth]
 });
-var halkEye = new Visitor({
-   name: "Halk Eye",
-   homePlanet: earth,
-   visitedPlanets: []
+
+
+
+
+// Saving Instances -----------------------------------
+// milkyWay.save();
+// outerMilkyWay.save();
+// earth.save();
+// titan.save();
+// asgard.save();
+
+// // Pushing instance ids into other instances arrays
+// halkEye.visitedPlanets.push(titan, asgard);
+// halkEye.save();
+
+// ironMan.visitedPlanets.push(earth, titan);
+// ironMan.save();
+
+// thor.visitedPlanets.push(earth, asgard);
+// thor.save();
+
+
+// asgard.visitors.push(halkEye, ironMan, thor);
+// titan.visitors.push(halkEye, thor, ironMan);
+// earth.visitors.push(halkEye, ironMan, thor);
+
+
+// milkyWay.Planets.push(earth, asgard);
+// outerMilkyWay.Planets.push(titan);
+
+// Queries
+Visitor.findOne({
+   name: "Iron Man"
+}).exec(function (err, homePlanet) {
+   console.log(err)
+   console.log('----------populated home planet------------')
+   console.log(homePlanet);
+   console.log('-------------------------------------------')
+
 });
-
-
-milkyWay.save();  outerMilkyWay.save();
-earth.save();  titan.save();  asgard.save();
-ironMan.save();  thanos.save();  thor.save();  
-
-halkEye.visitedPlanets.push(titan, asgard);
-// halkEye.visitedPlanets.push(titan, asgard);
-// halkEye.visitedPlanets.push(titan, asgard);
-halkEye.save();
-
-Solarsystem.reviews.push(Planet);
-
-// Visitor.save();
-// Solarsystem.save();
